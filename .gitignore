@@ -13,3 +13,11 @@ results
 
 npm-debug.log
 node_modules
+
+# OSX
+*.DS_Store
+__MACOSX
+
+# Windows
+*Thumbs.db
+
