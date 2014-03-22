@@ -6,6 +6,9 @@ var app = express()
 // Load environments
 var environment = require(__dirname + '/lib/environment')(app)
 
+app.enable('trust proxy') // Enable support for reverse proxies
+app.disable('x-powered-by') // Remove the powered-by header
+
 app.use(require('morgan')('dev')) // Logging
 app.use(require('errorhandler')())
 app.use(require('multer')())
@@ -17,6 +20,11 @@ app.use(require('cookie-parser')())
 
 // Force SSL/TLS
 // app.use(require('./middleware/forceTLS'))
+
+app.use(function(req, res, next) {
+	res.set('X-Frame-Options', 'SAMEORIGIN') // These pages can't be shown in frames
+	next()
+})
 
 // Routing
 require('./routes')(app)
